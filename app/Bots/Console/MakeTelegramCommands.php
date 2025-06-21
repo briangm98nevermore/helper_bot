@@ -41,7 +41,7 @@ class MakeTelegramCommands extends Command
 
         class {$className} extends Command
         {
-            protected \$name = '{$commandName}';
+            protected \$signature = '{$commandName}';
             protected \$description = 'Descripción del comando {$className}';
 
             public function handle()
