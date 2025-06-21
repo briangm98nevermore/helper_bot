@@ -1,30 +1,57 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Bots\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class MakeTelegramCommands extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'app:make-telegram-commands';
+    protected $signature = 'make:telegram:command
+                            {name : The class name of the Telegram command (e.g. StartCommand)}
+                            {bot? : The name of the bot (e.g. SupportBot). Defaults to DefaultBot}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
+    protected $description = 'Create a new Telegram bot command class';
 
-    /**
-     * Execute the console command.
-     */
-    public function handle()
+    public function handle(): void
     {
-        //
+        $name = $this->argument('name');
+        $bot = $this->argument('bot') ?? 'DefaultBot';
+
+        $className = Str::studly($name);
+        $commandName = Str::snake($name, ':');
+        $basePath = app_path("Bots/{$bot}/Commands");
+        $filePath = "{$basePath}/{$className}.php";
+        $namespace = "App\\Bots\\{$bot}\\Commands";
+
+        if (File::exists($filePath)) {
+            $this->error("El comando '{$className}' ya existe en {$basePath}.");
+            return;
+        }
+
+        File::ensureDirectoryExists($basePath);
+
+        $stub = <<<PHP
+        <?php
+
+        namespace {$namespace};
+
+        use Telegram\Bot\Commands\Command;
+
+        class {$className} extends Command
+        {
+            protected \$name = '{$commandName}';
+            protected \$description = 'Descripción del comando {$className}';
+
+            public function handle()
+            {
+                // Lógica del comando
+            }
+        }
+        PHP;
+
+        File::put($filePath, $stub);
+        $this->info("Comando creado correctamente: {$filePath}");
     }
 }
