@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class MakeTelegramCommands extends Command
 {
-    protected $signature = 'make:telegram:command
+    protected $signature = 'app:telegram-command
                             {name : The class name of the Telegram command (e.g. StartCommand)}
                             {bot? : The name of the bot (e.g. SupportBot). Defaults to DefaultBot}';
 

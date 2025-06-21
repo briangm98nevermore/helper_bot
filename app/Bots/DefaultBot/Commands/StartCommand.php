@@ -4,10 +4,10 @@ namespace App\Bots\DefaultBot\Commands;
 
 use Telegram\Bot\Commands\Command;
 
-class Start extends Command
+class StartCommand extends Command
 {
-    protected $signature = 'start';
-    protected $description = 'Descripción del comando Start';
+    protected $signature = 'start:command';
+    protected $description = 'Descripción del comando StartCommand';
 
     public function handle()
     {
