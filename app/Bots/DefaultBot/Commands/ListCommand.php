@@ -11,6 +11,8 @@ class ListCommand extends Command
 
     public function handle()
     {
-        // Lógica del comando
+        $this->replyWithMessage([
+            'text' => '¡Hola! Este es un mensaje de prueba del comando /list',
+        ]);
     }
 }

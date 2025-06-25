@@ -41,7 +41,10 @@ return [
             'allowed_updates' => null,
             'commands' => [
                 // Acme\Project\Commands\MyTelegramBot\BotCommand::class
-                App\Bots\DefaultBot\Commands\StartCommand::class
+                App\Bots\DefaultBot\Commands\StartCommand::class,
+                App\Bots\DefaultBot\Commands\HelpCommand::class,
+                App\Bots\DefaultBot\Commands\ListCommand::class,
+                App\Bots\DefaultBot\Commands\BuildCommand::class
             ],
         ],
 
