@@ -6,11 +6,13 @@ use Telegram\Bot\Commands\Command;
 
 class HelpCommand extends Command
 {
-    protected $name = 'help';
-    protected $description = 'Descripción del comando HelpCommand';
+    protected string $name = 'help';
+    protected string $description = 'Descripción del comando HelpCommand';
 
     public function handle()
     {
-        // Lógica del comando
+        $this->replyWithMessage([
+            'text' => '¡Hola! Este es un mensaje de prueba del comando /help',
+        ]);
     }
 }
