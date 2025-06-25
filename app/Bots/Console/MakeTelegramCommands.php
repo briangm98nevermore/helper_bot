@@ -20,7 +20,8 @@ class MakeTelegramCommands extends Command
         $bot = $this->argument('bot') ?? 'DefaultBot';
 
         $className = Str::studly($name);
-        $commandName = Str::snake($name, ':');
+        //$commandName = Str::snake($name, ':');str_replace('Command', '', $commandName);strtolower
+        $commandName = strtolower(str_replace('Command', '', $name));
         $basePath = app_path("Bots/{$bot}/Commands");
         $filePath = "{$basePath}/{$className}.php";
         $namespace = "App\\Bots\\{$bot}\\Commands";
@@ -41,7 +42,7 @@ class MakeTelegramCommands extends Command
 
         class {$className} extends Command
         {
-            protected \$signature = '{$commandName}';
+            protected \$name = '{$commandName}';
             protected \$description = 'Descripción del comando {$className}';
 
             public function handle()
