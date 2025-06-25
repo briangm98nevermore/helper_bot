@@ -44,7 +44,8 @@ return [
                 App\Bots\DefaultBot\Commands\StartCommand::class,
                 App\Bots\DefaultBot\Commands\HelpCommand::class,
                 App\Bots\DefaultBot\Commands\ListCommand::class,
-                App\Bots\DefaultBot\Commands\BuildCommand::class
+                App\Bots\DefaultBot\Commands\BuildCommand::class,
+                App\Bots\DefaultBot\Commands\CalculateCommand::class
             ],
         ],
 
@@ -134,7 +135,8 @@ return [
     |
     */
     'commands' => [
-        HelpCommand::class,
+        HelpCommand::class,,
+        App\Bots\DefaultBot\Commands\CalculateCommand::class
     ],
 
     /*
