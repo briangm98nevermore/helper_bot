@@ -41,6 +41,7 @@ return [
             'allowed_updates' => null,
             'commands' => [
                 // Acme\Project\Commands\MyTelegramBot\BotCommand::class
+                App\Bots\DefaultBot\Commands\StartCommand::class
             ],
         ],
 
@@ -191,8 +192,7 @@ return [
                 'status', // Shared Command Name.
                 'Acme\Project\Commands\BotCommand' // Full Path to Command Class.
            ],
-        */
-    ],
+        */],
 
     /*
     |--------------------------------------------------------------------------
