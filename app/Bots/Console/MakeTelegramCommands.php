@@ -31,7 +31,7 @@ class MakeTelegramCommands extends Command
             File::makeDirectory($directory, 0755, true);
         }
 
-        // Generamos el contenido de la clase
+        // Generamos el contenido del comando
         $classContent = <<<PHP
             <?php
 
@@ -56,34 +56,44 @@ class MakeTelegramCommands extends Command
         File::put($path, $classContent);
         $this->info("Comando creado en: {$path}");
 
-        $this->registerInTelegramConfig($class);
+        $this->registerInBotKernel($class);
     }
 
-    protected function registerInTelegramConfig(string $commandClass): void
+    protected function registerInBotKernel(string $commandClass): void
     {
-        $configPath = config_path('telegram.php');
-        $configContent = File::get($configPath);
+        $kernelPath = app_path('Bots/DefaultBot/Kernel.php');
 
-        if (str_contains($configContent, $commandClass . '::class')) {
-            $this->warn("{$commandClass} ya está registrado en config/telegram.php.");
+        if (!File::exists($kernelPath)) {
+            $this->error("No se encontró el archivo Kernel en: {$kernelPath}");
             return;
         }
 
+        $kernelContent = File::get($kernelPath);
+        $commandClass = '\\' . ltrim($commandClass, '\\');
+
+        if (str_contains($kernelContent, $commandClass . '::class')) {
+            $this->warn("{$commandClass} ya está registrado en Kernel.php.");
+            return;
+        }
+
+        // Inserta antes del cierre del array de return
         $updated = preg_replace_callback(
-            "/('commands'\s*=>\s*\[\s*)([^]]*)/s",
+            '/(return\s*\[\s*)([^]]*)(\];)/s',
             function ($matches) use ($commandClass) {
                 $existing = trim($matches[2]);
-                $insertion = $existing ? $existing . ",\n            {$commandClass}::class" : "            {$commandClass}::class";
-                return $matches[1] . $insertion;
+                $insertion = $existing
+                    ? $existing . ",\n            {$commandClass}::class"
+                    : "            {$commandClass}::class";
+                return $matches[1] . $insertion . "\n        " . $matches[3];
             },
-            $configContent
+            $kernelContent
         );
 
         if ($updated) {
-            File::put($configPath, $updated);
-            $this->info("{$commandClass} registrado en config/telegram.php");
+            File::put($kernelPath, $updated);
+            $this->info("{$commandClass} registrado en Kernel.php correctamente.");
         } else {
-            $this->error("No se pudo registrar {$commandClass} en config/telegram.php");
+            $this->error("No se pudo registrar {$commandClass} en Kernel.php.");
         }
     }
 }
