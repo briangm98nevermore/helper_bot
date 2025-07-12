@@ -127,10 +127,7 @@ return [
     | will respond with a list of available commands and description.
     |
     */
-    'commands' => [
-        HelpCommand::class,
-        App\Bots\DefaultBot\Commands\CalculateCommand::class
-    ],
+    'commands' => [],
 
     /*
     |--------------------------------------------------------------------------

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class MakeTelegramCommands extends Command
 {
-    protected $signature = 'app:telegram-command {name : Nombre del comando}';
+    protected $signature = 'bot:telegram-command {name : Nombre del comando}';
     protected $description = 'Crea un nuevo comando de Telegram para un bot';
 
     public function handle(): void
